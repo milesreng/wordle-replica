@@ -35,9 +35,9 @@ def update_letters(guess, correct, letters):
     return letters
 
 
-def run_game(words):
+def run_game(all_words, wordle_words):
     template, pointers = ["_" for i in range(5)], ["_" for i in range(5)]
-    wordle = get_wordle(words)
+    wordle = get_wordle(wordle_words)
     correct = False
     guesses = 6
     guessed_words = []
@@ -53,7 +53,7 @@ def run_game(words):
             if len(guess) != 5:
                 print("please guess a five-letter word")
                 guess = input("guess a word: ").upper()
-            elif guess not in words:
+            elif guess not in all_words:
                 print("word not in word list")
                 guess = input("guess a word: ").upper()
             elif guess in guessed_words:
@@ -62,11 +62,13 @@ def run_game(words):
             else:
                 guessed_words.append(guess)
                 valid_guess = True
+
         pointers = update_pointers(guess, wordle, pointers)
         template = [ch for ch in guess]
         letters = update_letters(guess, wordle, letters)
         print(" ".join(template))
         print(" ".join(pointers))
+
         print("letters left: ")
         letters_left = []
         for letter in letters:
@@ -90,11 +92,14 @@ if __name__ == "__main__":
     with open("fiveletterwords.txt") as file:
         valid_words = [line.rstrip().upper() for line in file]
 
+    with open("betterwords.txt") as file:
+        better_words = [line.rstrip().upper() for line in file]
+
     wins = 0
     games = 0
     play_game = True
     while play_game:
-        win = run_game(valid_words)
+        win = run_game(valid_words, better_words)
         again = input("do you want to play again? y/n: ")
         if again != "y" or again != "Y":
             play_game = False
