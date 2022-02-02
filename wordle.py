@@ -1,8 +1,10 @@
 import random
 
+
 def get_wordle(words):
     idx = random.randint(1, len(words) - 1)
     return words[idx]
+
 
 def update_pointers(guess, correct, pointers):
     for i in range(len(guess)):
@@ -13,6 +15,7 @@ def update_pointers(guess, correct, pointers):
             pointers[i] = "|"
     return pointers
 
+
 def letter_in_word(letter, word):
     for ch in word:
         if ch == letter:
@@ -21,15 +24,27 @@ def letter_in_word(letter, word):
         return 1
     return 2
 
+
+def update_letters(guess, correct, letters):
+    for ch in guess:
+        in_word = letter_in_word(ch, correct)
+        if in_word == 1:
+            letters[ch] = 1
+        elif in_word == 2:
+            letters[ch] = 2
+    return letters
+
+
 def run_game(words):
     template, pointers = ["_" for i in range(5)], ["_" for i in range(5)]
     wordle = get_wordle(words)
     correct = False
     guesses = 6
     guessed_words = []
-    letters_left = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K',
-                    'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V',
-                    'W', 'X', 'Y', 'Z']
+    letters = {'A': 0, 'B': 0, 'C': 0, 'D': 0, 'E': 0, 'F': 0, 'G': 0,
+               'H': 0, 'I': 0, 'J': 0, 'K': 0, 'L': 0, 'M': 0, 'N': 0,
+               'O': 0, 'P': 0, 'Q': 0, 'R': 0, 'S': 0, 'T': 0, 'U': 0,
+               'V': 0, 'W': 0, 'X': 0, 'Y': 0, 'Z': 0}
 
     while guesses > 0 and not correct:
         valid_guess = False
@@ -49,8 +64,15 @@ def run_game(words):
                 valid_guess = True
         pointers = update_pointers(guess, wordle, pointers)
         template = [ch for ch in guess]
+        letters = update_letters(guess, wordle, letters)
         print(" ".join(template))
         print(" ".join(pointers))
+        print("letters left: ")
+        letters_left = []
+        for letter in letters:
+            if letters[letter] != 2:
+                letters_left.append(letter)
+        print(" ".join(letters_left))
 
         if guess == wordle:
             correct = True
