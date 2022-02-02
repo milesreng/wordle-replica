@@ -27,22 +27,22 @@ def run_game(words):
 
     while guesses > 0 and not correct:
         valid_guess = False
-        guess = input("guess a word: ")
+        guess = input("guess a word: ").upper()
         while not valid_guess:
             if len(guess) != 5:
                 print("please guess a five-letter word")
-                guess = input("guess a word: ")
+                guess = input("guess a word: ").upper()
             elif guess not in words:
                 print("word not in word list")
-                guess = input("guess a word: ")
+                guess = input("guess a word: ").upper()
             elif guess in guessed_words:
                 print("you've already guessed this")
-                guess = input("guess a word: ")
+                guess = input("guess a word: ").upper()
             else:
                 guessed_words.append(guess)
                 valid_guess = True
         
-        guess -= 1
+        guesses -= 1
 
 if __name__ == "__main__":
     with open("fiveletterwords.txt") as file:
