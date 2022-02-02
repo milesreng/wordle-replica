@@ -4,7 +4,10 @@ def get_wordle(words):
     idx = random.randint(1, len(words) - 1)
     return words[idx]
 
-def update_pointers(guess, correct, letter):
+def update_pointers(guess, correct, pointers):
+    for i in range(len(guess)):
+        if guess[i] == correct[i]:
+            pointers[i] = guess[i]
     return
 
 def letter_in_word(letter, word):
