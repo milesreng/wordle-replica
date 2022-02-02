@@ -4,8 +4,19 @@ def get_wordle(words):
     idx = random.randint(1, len(words) - 1)
     return words[idx]
 
+def update_pointers(guess, correct, letter):
+    return
+
+def letter_in_word(letter, word):
+    for ch in word:
+        if ch == letter:
+            return 0
+    if letter in word:
+        return 1
+    return 2
+
 def run_game(words):
-    template, pointers = "_ _ _ _ _", "_ _ _ _ _"
+    template, pointers = ["_" for i in range(5)], ["_" for i in range(5)]
     wordle = get_wordle(words)
     correct = False
     guesses = 6
