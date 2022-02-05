@@ -35,6 +35,16 @@ def update_letters(guess, correct, letters):
             letters[guess[i]] = 2
     return letters
 
+def print_rules():
+    print("let's play!")
+    print("\nhere are the rules: ")
+    print("\t- you will have six guesses to guess a random five-letter word")
+    print("\t- this word will not have duplicate letters")
+    print("\t- the following symbols indicate accuracy of guesses: ")
+    print("\t\t ^ correct letter, correct position")
+    print("\t\t | correct letter, incorrect position")
+    print("\t\t _ incorrect letter")
+    print("\nhave fun!\n")
 
 def run_game(all_words, wordle_words):
     template, pointers = ["_" for i in range(5)], ["_" for i in range(5)]
@@ -97,6 +107,7 @@ if __name__ == "__main__":
     with open("betterwords.txt") as file:
         better_words = [line.rstrip().upper() for line in file]
 
+    print_rules()
     wins = 0
     games = 0
     play_game = True
