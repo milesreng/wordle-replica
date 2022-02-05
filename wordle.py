@@ -8,30 +8,31 @@ def get_wordle(words):
 
 def update_pointers(guess, correct, pointers):
     for i in range(len(guess)):
-        in_word = letter_in_word(guess[i], correct)
+        in_word = letter_in_word(guess[i], correct, i)
         if in_word == 0:
             pointers[i] = "^"
         elif in_word == 1:
             pointers[i] = "|"
+        else:
+            pointers[i] = "_"
     return pointers
 
 
-def letter_in_word(letter, word):
-    for ch in word:
-        if ch == letter:
-            return 0
-    if letter in word:
+def letter_in_word(letter, word, idx):
+    if word[idx] == letter:
+        return 0
+    elif letter in word:
         return 1
     return 2
 
 
 def update_letters(guess, correct, letters):
-    for ch in guess:
-        in_word = letter_in_word(ch, correct)
+    for i in range(len(guess)):
+        in_word = letter_in_word(guess[i], correct, i)
         if in_word == 1:
-            letters[ch] = 1
+            letters[guess[i]] = 1
         elif in_word == 2:
-            letters[ch] = 2
+            letters[guess[i]] = 2
     return letters
 
 
@@ -67,7 +68,7 @@ def run_game(all_words, wordle_words):
         template = [ch for ch in guess]
         letters = update_letters(guess, wordle, letters)
         print(" ".join(template))
-        print(" ".join(pointers))
+        print(" ".join(pointers) + "\n")
 
         print("letters left: ")
         letters_left = []
@@ -75,13 +76,14 @@ def run_game(all_words, wordle_words):
             if letters[letter] != 2:
                 letters_left.append(letter)
         print(" ".join(letters_left))
+        print("guesses left: " + str(guesses) + "\n")
 
         if guess == wordle:
             correct = True
 
         guesses -= 1
     if correct:
-        print("nice! you guessed it in " + str(guesses) + "/6 guesses!")
+        print("nice! you guessed it in " + str(6 - guesses) + "/6 guesses!")
     else:
         print("sorry, word was " + wordle)
 
